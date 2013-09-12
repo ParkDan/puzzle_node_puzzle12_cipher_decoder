@@ -102,8 +102,8 @@ while true
   break if word_array.include?(@code_word)
 end
 
-puts "__________________________________"
-puts decoded_message(@code_word, message.to_s, @left_code_hash_array)
-
+# puts "__________________________________"
+output= decoded_message(@code_word, message.to_s, @left_code_hash_array)
+File.open("un_#{@input_file}", 'a') { |f| f.write(output) }
 
 
