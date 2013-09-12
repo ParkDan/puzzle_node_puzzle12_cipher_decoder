@@ -1,6 +1,32 @@
 def input_to_array(input_file)
-  input = File.open('./' + input_file).to_a
+  input = File.open('./coded_messages/' + input_file).to_a
   return input
+end
+
+def input_interface
+    while true
+      puts "**********************************************************************"
+      puts "Which coded message would you like to decode"
+      puts input_choices
+      puts
+      response=gets.chomp
+      break if input_check(response)
+      puts "I'm sorry please try again."
+      puts "**********************************************************************"
+    end
+    @input_file=response
+end
+
+def input_choices
+  @input_choices=Dir.entries("coded_messages")
+  @input_choices.shift
+  @input_choices.shift
+  @input_choices
+end
+
+def input_check(response)
+  input_choices
+  @input_choices.include?(response)
 end
 
 def gen_code_hash_array
@@ -60,12 +86,13 @@ def decoded_message(code_word, message, lshifted_hash_array)
   decoded_message.join
 end
 
-input=input_to_array("coded_message.txt")
-@coded_code_word=input[0]
-@message=input[2...input.length].join.to_s
 @code_hash_array=gen_code_hash_array
 @left_code_hash_array=gen_lshift_code_hash_array
-word_array=find_code_word_array(@coded_code_word)
+input_interface
+input=input_to_array(@input_file)
+coded_code_word=input[0]
+message=input[2...input.length].join.to_s
+word_array=find_code_word_array(coded_code_word)
 
 while true
   puts word_array
@@ -76,7 +103,7 @@ while true
 end
 
 puts "__________________________________"
-puts decoded_message(@code_word, @message.to_s, @left_code_hash_array)
+puts decoded_message(@code_word, message.to_s, @left_code_hash_array)
 
 
 
